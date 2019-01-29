@@ -1,10 +1,11 @@
 
   function onReady() {
 
-  const addToDoForm = document.getElementById('addToDoForm');
+  const addToDoForm = document.getElementById('addToDoForm').style.color = "blue";
   const newToDoText = document.getElementById('newToDoText');
-  const toDoList = document.getElementById('toDoList');
+  const toDoList = document.getElementById('toDoList').style.fontSize = "normal";
   const deleteButton = document.getElementById('deleteButton');
+  const label = document.getElementById('label1');
 
 
   addToDoForm.addEventListener('submit', () => {
@@ -36,14 +37,19 @@
  });
 
  deleteButton.addEventListener('click', () => {
-  // event.preventDefault();
-   alert("Someone clicked me");
+
+  // Get list of ALL checkboxes that are checked
+  var checked = document.querySelectorAll('input:checked').style.fontFamily = "Roboto";
+
+// looping through each checked element using an for array for loop and checking the length of the array
+  for (i = 0; i < checked.length; ++i) {
+    parentLi = checked[i].parentNode;    // loop checks each checked line item and then remove the checked text and the checkbox.
+    toDoList.removeChild(parentLi);
+}
+
  });
 
  }
-
-
-
 
 
  window.onload = function() {
