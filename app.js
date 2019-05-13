@@ -1,23 +1,28 @@
-
-  function onReady() {
-
-  const addToDoForm = document.getElementById('addToDoForm').style.color = "blue";
-  const newToDoText = document.getElementById('newToDoText');
-  const toDoList = document.getElementById('toDoList').style.fontSize = "normal";
-  const deleteButton = document.getElementById('deleteButton');
-  const label = document.getElementById('label1');
-
+function onReady() {
 
   addToDoForm.addEventListener('submit', () => {
     event.preventDefault();
     // get the text
-        let title = newToDoText.value;
+       let title = newToDoText.value;
 
         // create a new li
        let newLi = document.createElement('li');
 
        // create a new input
        let checkbox = document.createElement('input');
+
+       // create a new delete button
+       let deleteButton = document.createElement('input');
+       deleteButton.type="button";
+       deleteButton.value="Delete";
+
+      // Dynamically add function for onclick event
+      deleteButton.onclick = function(){
+          var node = this.parentNode;
+          //alert("Deleting "+ title); This will echo the item text getting deleted
+          node.parentNode.removeChild(node);  // Get the list item of the button, pass it to list container, call removeChild
+        };
+
 
        // set the input's type to checkbox
        checkbox.type = "checkbox";
@@ -27,31 +32,18 @@
 
        // attach the checkbox to the li
        newLi.appendChild(checkbox);
+       newLi.appendChild(deleteButton);
 
        // attach the li to the ul
       toDoList.appendChild(newLi);
-
       //empty the input
       newToDoText.value = '';
 
  });
 
- deleteButton.addEventListener('click', () => {
 
-  // Get list of ALL checkboxes that are checked
-  var checked = document.querySelectorAll('input:checked').style.fontFamily = "Roboto";
-
-// looping through each checked element using an for array for loop and checking the length of the array
-  for (i = 0; i < checked.length; ++i) {
-    parentLi = checked[i].parentNode;    // loop checks each checked line item and then remove the checked text and the checkbox.
-    toDoList.removeChild(parentLi);
 }
 
- });
-
- }
-
-
- window.onload = function() {
+window.onload = function() {
    onReady();
- };
+};
