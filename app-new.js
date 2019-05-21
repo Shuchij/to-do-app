@@ -4,10 +4,18 @@ function onReady() {
   const addToDoForm = document.getElementById('addToDoForm');
   let idValue=0;
 
-  // On load, get item from localStorage and store it in the first element of toDos array
-  localStorageString = localStorage.getItem(idValue);
-   // Got to parse localStorageString to convert it into an object
-  toDos[idValue] = JSON.parse(localStorageString);
+  var i;
+  for (i = 0; i < localStorage.length; i++) {
+    // get item from localStorage
+    localStorageString = localStorage.getItem(i);
+    //parse localStorageString to convert it to object and store in toDos
+    toDos[i] = JSON.parse(localStorageString);
+    console.log(toDos[i]);
+  }
+
+  //renderTheUI right after you have populated toDos from localStorage
+  renderTheUI();
+
 
   addToDoForm.addEventListener('submit', event => {
       event.preventDefault();
