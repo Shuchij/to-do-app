@@ -4,6 +4,10 @@ function onReady() {
   const addToDoForm = document.getElementById('addToDoForm');
   let idValue=0;
 
+  // On load, get item from localStorage and store it in the first element of toDos array
+  localStorageString = localStorage.getItem(idValue);
+   // Got to parse localStorageString to convert it into an object
+  toDos[idValue] = JSON.parse(localStorageString);
 
   addToDoForm.addEventListener('submit', event => {
       event.preventDefault();
@@ -15,21 +19,20 @@ function onReady() {
     const newToDoText = document.getElementById('newToDoText');
     if (!newToDoText.value) { return; }  // exit out if input text is empty
 
-
     toDos.push({
         title: newToDoText.value,
         complete: false,
         id: idValue
       });
 
+    //var myJSON = JSON.stringify(toDos[idValue]);
+    localStorage.setItem(idValue,JSON.stringify(toDos[idValue]));
+
     // Clear initial text input
     newToDoText.value = '';
 
     renderTheUI();
     idValue = idValue + 1;  // incrementing the ID for every new text input object created
-
-    //console.log(toDos['idValue'].id);
-
   }
 
   function renderTheUI() {
@@ -39,8 +42,8 @@ function onReady() {
 
     toDos.forEach(function(toDo) {
 
-      const newLi = document.createElement('li');
-      const checkbox = document.createElement('input');
+      let newLi = document.createElement('li');
+      let checkbox = document.createElement('input');
       const deleteButton = document.createElement('input');
 
       deleteButton.type="button";
@@ -54,17 +57,18 @@ function onReady() {
       // Dynamically add function for onclick event
       deleteButton.onclick = function(){
           var node = this.parentNode;
-          console.log(node.id);
-          toDos = toDos.filter(e => e.id !== node.id);
-          console.log(toDos);
-
+          toDos = toDos.filter(e => e.id != node.id);
           renderTheUI();
-
-
-      //     //alert("Deleting "+ title); This will echo the item text getting deleted
-      //   //  node.parentNode.removeChild(node);  // Get the list item of the button, pass it to list container, call removeChild
      };
 
+    // Dynamically add listener for checkbox onchange event
+     checkbox.onchange = function(){
+         if (this.checked) {          // if checkbox is checked
+           this.complete = true;
+         } else {                    // if checkbox is not checked
+           this.complete = false;
+         }
+    };
 
       toDoList.appendChild(newLi);
       newLi.appendChild(checkbox);
@@ -72,19 +76,9 @@ function onReady() {
 
     });
 
-
-
   }
 
-
-
 }
-
-
-
-
-
-
 
 
 window.onload = function() {
